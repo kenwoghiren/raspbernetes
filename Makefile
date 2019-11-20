@@ -4,7 +4,7 @@ SHELL := /bin/bash -o pipefail
 .DEFAULT_GOAL := help
 
 # Default variables
-MNT_DEVICE ?= /dev/mmcblk0
+MNT_DEVICE ?= /dev/sdb
 MNT_ROOT    = /mnt/raspbernetes/root
 MNT_BOOT    = /mnt/raspbernetes/boot
 RPI_HOME    = $(MNT_ROOT)/home/pi
