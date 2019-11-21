@@ -11,18 +11,18 @@ RPI_HOME    = $(MNT_ROOT)/home/pi
 OUTPUT_PATH = output
 
 # Raspberry PI host and IP configuration
-RPI_NETWORK_TYPE ?= wlan0
-RPI_HOSTNAME     ?= rpi-kube-master-01
-RPI_IP           ?= 192.168.1.101
-RPI_DNS          ?= 192.168.1.1
-RPI_TIMEZONE     ?= Australia/Melbourne
+RPI_NETWORK_TYPE ?= eth0
+RPI_HOSTNAME     ?= k8-master-01
+RPI_IP           ?= 192.168.1.21
+RPI_DNS          ?= 192.168.1.254
+RPI_TIMEZONE     ?= Europe/London
 
 # Kubernetes configuration
 KUBE_NODE_TYPE    ?= master
-KUBE_MASTER_VIP   ?= 192.168.1.100
-KUBE_MASTER_IP_01 ?= 192.168.1.101
-KUBE_MASTER_IP_02 ?= 192.168.1.102
-KUBE_MASTER_IP_03 ?= 192.168.1.103
+KUBE_MASTER_VIP   ?= 192.168.1.20
+KUBE_MASTER_IP_01 ?= 192.168.1.21
+KUBE_MASTER_IP_02 ?= 192.168.1.22
+KUBE_MASTER_IP_03 ?= 192.168.1.23
 
 # Wifi details if required
 WIFI_SSID     ?=
@@ -98,13 +98,13 @@ format: $(OUTPUT_PATH)/$(RASPBIAN_IMAGE_VERSION).img unmount ## Format the SD ca
 
 .PHONY: mount
 mount: ## Mount the current SD device
-	sudo mount $(MNT_DEVICE)p1 $(MNT_BOOT)
-	sudo mount $(MNT_DEVICE)p2 $(MNT_ROOT)
+	sudo mount $(MNT_DEVICE)1 $(MNT_BOOT)
+	sudo mount $(MNT_DEVICE)2 $(MNT_ROOT)
 
 .PHONY: unmount
 unmount: ## Unmount the current SD device
-	sudo umount $(MNT_DEVICE)p1 || true
-	sudo umount $(MNT_DEVICE)p2 || true
+	sudo umount $(MNT_DEVICE)1 || true
+	sudo umount $(MNT_DEVICE)2 || true
 
 .PHONY: wlan0
 wlan0: ## Install wpa_supplicant for auto network join
@@ -144,7 +144,7 @@ prepare: ## Create all necessary directories to be used in build
 
 .PHONY: clean
 clean: ## Unmount and delete all temporary mount directories
-	sudo umount $(MNT_DEVICE)p1 || true
-	sudo umount $(MNT_DEVICE)p2 || true
+	sudo umount $(MNT_DEVICE)1 || true
+	sudo umount $(MNT_DEVICE)2 || true
 	sudo rm -rf $(MNT_BOOT)
 	sudo rm -rf $(MNT_ROOT)
